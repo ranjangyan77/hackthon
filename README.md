@@ -2,7 +2,7 @@
 
 A web-based app built with **Streamlit** that leverages **deep learning** (ResNet50) to identify plant species from images and map their GPS locations for reforestation tracking.
 
-![Demo Screenshot or GIF Placeholder](https://via.placeholder.com/800x400?text=Demo+Screenshot+or+GIF)
+
 
 ---
 
@@ -31,5 +31,4 @@ A web-based app built with **Streamlit** that leverages **deep learning** (ResNe
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/smart-plant-identifier.git
-   cd smart-plant-identifier
+   git clone 
