@@ -29,8 +29,7 @@ Clone the repository
 bash
 Copy
 Edit
-git clone https://github.com/your-username/plant-identifier-mapper.git
-cd plant-identifier-mapper
+git clone 
 Create and activate a virtual environment (optional but recommended)
 
 bash
