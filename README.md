@@ -27,6 +27,19 @@ A web-based app built with **Streamlit** that leverages **deep learning** (ResNe
 
 ---
 
+##  🧪Example Use Case
+Launch the app.
+
+Upload an image of a plant or capture using webcam.
+
+Let the model identify the plant species.
+
+Enter latitude & longitude manually.
+
+Visualize the location on an interactive map.
+
+---
+
 ## 📦 Installation
 
 1. **Clone the repository**
