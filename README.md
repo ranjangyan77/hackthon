@@ -1,92 +1,35 @@
-🌱 Smart Plant Identifier & Reforestation Mapper
-A web-based app built with Streamlit that uses deep learning (ResNet50) to identify plants from images and map their locations for reforestation tracking.
+# 🌱 Smart Plant Identifier & Reforestation Mapper
 
-<!-- Replace with your own screenshot or demo GIF -->
+A web-based app built with **Streamlit** that leverages **deep learning** (ResNet50) to identify plant species from images and map their GPS locations for reforestation tracking.
 
-🚀 Features
-📸 Upload or capture plant images using your webcam.
+![Demo Screenshot or GIF Placeholder](https://via.placeholder.com/800x400?text=Demo+Screenshot+or+GIF)
 
-🤖 Identify plant species using the ResNet50 model pretrained on ImageNet.
+---
 
-📊 Visualize top-3 predictions with confidence scores.
+## 🚀 Features
 
-🌍 Map plant locations using interactive Folium maps.
+- 📸 Upload or capture plant images using your webcam.
+- 🤖 Identify plant species using a pretrained **ResNet50** model.
+- 📊 Display top-3 predictions with confidence scores.
+- 🌍 Interactive mapping of plant locations with **Folium**.
+- 🧭 Manual input of GPS coordinates for precise mapping.
 
-🧭 Supports manual input of GPS coordinates for mapping.
+---
 
-🛠️ Tech Stack
-Frontend: Streamlit
+## 🛠️ Tech Stack
 
-Model: ResNet50 from tensorflow.keras.applications
+| Layer       | Tools/Libraries |
+|-------------|-----------------|
+| **Frontend** | Streamlit |
+| **Model**    | ResNet50 (`tensorflow.keras.applications`) |
+| **Image Processing** | OpenCV, PIL, NumPy |
+| **Mapping**  | Folium, streamlit-folium |
 
-Image Processing: OpenCV, PIL, NumPy
+---
 
-Mapping: Folium + streamlit-folium
+## 📦 Installation
 
-📦 Installation
-Clone the repository
-
-bash
-Copy
-Edit
-git clone 
-Create and activate a virtual environment (optional but recommended)
-
-bash
-Copy
-Edit
-python -m venv venv
-source venv/bin/activate  # or .\venv\Scripts\activate on Windows
-Install dependencies
-
-bash
-Copy
-Edit
-pip install -r requirements.txt
-Run the app
-
-bash
-Copy
-Edit
-streamlit run app.py
-🧪 Example Use Case
-Launch the app.
-
-Upload an image of a plant or capture using webcam.
-
-Let the model identify the plant species.
-
-Enter latitude & longitude manually.
-
-Visualize the location on an interactive map.
-
-📁 Project Structure
-bash
-Copy
-Edit
-├── app.py                  # Main Streamlit app
-├── requirements.txt        # Python dependencies
-├── README.md               # Project documentation
-├── captured_image.jpg      # Captured image placeholder
-✅ To-Do
- Integrate GPS auto-detection (e.g., via HTML5 geolocation).
-
- Save mapped data to a cloud database (e.g., Firebase, PostgreSQL).
-
- Improve model accuracy with a fine-tuned plant-specific CNN.
-
- Add historical view of reforestation markers.
-
-🤝 Contributing
-Contributions are welcome! Open issues, fork the repo, submit pull requests – all appreciated.
-
-📄 License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-🌐 Links
-📚 Streamlit Documentation
-
-📘 ResNet50 Keras Docs
-
-📍 Folium Docs
-
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/smart-plant-identifier.git
+   cd smart-plant-identifier
