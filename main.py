@@ -8,10 +8,13 @@ import cv2
 import matplotlib.pyplot as plt
 from streamlit_folium import folium_static
 import folium
+import requests
+from PIL import Image
+import rasterio
+from io import BytesIO
 
 
-st.set_page_config(page_title="Plant Identifier & Mapper", layout="wide")
-
+st.set_page_config(page_title="Plant Identifier & Reforestation Mapper", layout="wide")
 
 model = ResNet50(weights='imagenet')
 
@@ -22,12 +25,10 @@ Upload or capture an image of a plant to identify it using AI.
 Then, mark its location on the map for reforestation tracking.
 """)
 
-
 with st.sidebar:
     st.header("📸 Image Input")
     use_camera = st.radio("Choose image input method:", ["Upload Image", "Capture via Camera"])
 
-    
     def capture_image():
         cam = cv2.VideoCapture(0)
         while True:
@@ -56,7 +57,6 @@ with st.sidebar:
 
 
 if uploaded_file is not None:
-    
     col1, col2 = st.columns([1, 2])
 
     with col1:
@@ -85,7 +85,6 @@ if uploaded_file is not None:
         })
         st.line_chart(prediction_df.set_index('Labels'))
 
-
 st.markdown("---")
 st.subheader("📍 Reforestation Mapping")
 
@@ -97,3 +96,78 @@ if st.button("🌍 Show Location on Map"):
     m = folium.Map(location=[lat, lon], zoom_start=15)
     folium.Marker([lat, lon], popup='Predicted Plant Location').add_to(m)
     folium_static(m)
+
+
+def get_climate_data(lat, lon):
+    """Fetch climate data from WorldClim API"""
+    try:
+        response = requests.get(f"https://worldclim.org/api/v2.1/climate?lat={lat}&lon={lon}")
+        return response.json()['data']
+    except:
+        return None
+
+def recommend_species(temp, precip, soil_type):
+    """Tree recommendation logic based on research insights"""
+    recommendations = []
+    
+
+    if temp > 10 and precip < 800:
+        recommendations.extend([
+            {'name': 'Norway Maple', 'traits': 'Drought-resistant, thermophilic'},
+            {'name': 'Service Tree', 'traits': 'Climate-adapted, mixed-forest suitability'}
+        ])
+    
+    
+    if len(recommendations) > 1:
+        recommendations.append({
+            'name': 'Mixed Forest Package',
+            'traits': '30% conifers + 70% broadleaf for stability'
+        })
+        
+    return recommendations
+
+
+def analyze_drone_image(img):
+    """Process UAV imagery using OpenCV"""
+    img_array = np.array(img.convert('RGB'))
+    gray = cv2.cvtColor(img_array, cv2.COLOR_RGB2GRAY)
+    _, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+    contours, _ = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    return len(contours)  
+
+st.markdown("---")
+st.subheader("🌳 Reforestation Recommendations")
+
+if 'lat' in locals() and 'lon' in locals():
+    climate_data = get_climate_data(lat, lon)
+    
+    if climate_data:
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.metric("Average Temperature", f"{climate_data.get('temp', 'N/A')}°C")
+            st.metric("Annual Precipitation", f"{climate_data.get('precip', 'N/A')}mm")
+            
+        with col2:
+            recommended = recommend_species(
+                climate_data.get('temp', 0),
+                climate_data.get('precip', 0),
+                climate_data.get('soil_type', 'N/A')
+            )
+            
+            st.write("**Recommended Species:**")
+            for species in recommended:
+                st.markdown(f"- {species['name']}: _{species['traits']}_")
+            
+            
+            st.warning("""
+            **Ecological Best Practices:**
+            - Minimum 15 species mix for biodiversity
+            - Prioritize native species with <5% non-native
+            """)
+            
+
+if uploaded_file and uploaded_file.type.startswith('image/'):
+    img_pil = Image.open(uploaded_file)
+    vegetation_count = analyze_drone_image(img_pil)
+    st.write(f"Detected {vegetation_count} vegetation clusters in aerial imagery")
